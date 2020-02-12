@@ -1,0 +1,31 @@
+
+
+--FOR SHOWING THE LIST OF ITEMS
+SELECT sd.transNo,p.description, p.price,sd.quantity, SUM(p.price*sd.quantity) AS 'amount'
+	FROM salesdetail sd
+	RIGHT JOIN product p
+	ON sd.prodcode = p.prodcode
+	WHERE sd.transNo ='TR01' --transNo per customer
+	GROUP BY sd.transNo,p.description, p.price,sd.quantity;
+
+--TOTAL AMOUNT FOR EACH TRANSACTION
+SELECT sd.transNo,SUM(p.price*sd.quantity) AS 'Total Amount'
+	FROM salesdetail sd
+	RIGHT JOIN product p
+	ON sd.prodcode = p.prodcode
+	WHERE sd.transNo ='TR01'--transNo per customer
+	GROUP BY sd.transNo;
+
+
+--GET TOTAL WEIGHT AND VALUE OF PRODUCT EVERY CUSTOMER
+SELECT s.custNo,sd.transNo, SUM(p.price*sd.quantity) AS 'Total Amount', SUM(p.weight*sd.quantity) AS 'Total weight'
+	FROM sales s
+	RIGHT JOIN salesdetail sd
+	ON s.transNo = sd.transNo
+	RIGHT JOIN product p
+	ON sd.prodcode = p.prodcode
+	GROUP BY s.custNo,sd.transNo;	
+
+TR01
+total amount = 340
+total weight = 90
